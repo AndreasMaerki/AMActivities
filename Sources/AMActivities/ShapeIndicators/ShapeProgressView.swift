@@ -1,0 +1,128 @@
+import SwiftUI
+
+struct ShapeProgressView: View {
+  @State private var startPosition: CGFloat = 0.0
+  @State private var endPositionS1: CGFloat = 0.03
+  @State private var endPositionS2S3: CGFloat = 0.06
+
+  static let initialDegree: Angle = .degrees(270)
+  @State private var rotationDegreeS1 = initialDegree
+  @State private var rotationDegreeS2 = initialDegree
+  @State private var rotationDegreeS3 = initialDegree
+
+  @State private var drawingDirectionToggle = false
+  @State private var initialRotation = true
+
+  private let fullRotation: Angle = .degrees(360)
+  private let animationTime: Double = 2.5
+  private let lineWidth: Double = 8
+  private let spinnerSize: Double = 200
+  let strokeColor = Color.pink
+
+  var body: some View {
+    ZStack {
+      SpinnerCircle(
+        start: startPosition,
+        end: endPositionS2S3,
+        rotation: rotationDegreeS3,
+        color: strokeColor.opacity(0.3),
+        lineWidh: lineWidth
+      )
+
+      SpinnerCircle(
+        start: startPosition,
+        end: endPositionS2S3,
+        rotation: rotationDegreeS2,
+        color: strokeColor.opacity(0.5),
+        lineWidh: lineWidth
+      )
+
+      SpinnerCircle(
+        start: startPosition,
+        end: endPositionS1,
+        rotation: rotationDegreeS1,
+        color: strokeColor,
+        lineWidh: lineWidth
+      )
+      CartShape()
+        .trim(from: drawingDirectionToggle ? 0 : 1, to: 1)
+        .stroke(
+          strokeColor,
+          style: StrokeStyle(
+            lineWidth: lineWidth,
+            lineCap: .round,
+            lineJoin: .round
+          )
+        )
+        .frame(width: spinnerSize * 0.45, height: spinnerSize * 0.45)
+        .offset(x: -(spinnerSize / 40), y: spinnerSize / 100)
+    }
+    .frame(width: spinnerSize, height: spinnerSize)
+    .onAppear {
+      Timer.scheduledTimer(withTimeInterval: animationTime, repeats: true) { _ in
+        Task { @MainActor in
+          animateSpinner()
+        }
+      }.fire()
+
+      withAnimation(.easeInOut(duration: animationTime).repeatForever(autoreverses: true)) {
+        drawingDirectionToggle.toggle()
+      }
+    }
+  }
+
+  private func animateSpinner() {
+    animateSpinner(with: initialRotation ? 0 : animationTime / 2) {
+      endPositionS1 = 1.0
+    }
+    initialRotation = false
+
+    animateSpinner(with: animationTime - 0.025) {
+      rotationDegreeS1 += fullRotation
+      endPositionS2S3 = 0.8
+    }
+
+    animateSpinner(with: animationTime) {
+      endPositionS1 = 0.03
+      endPositionS2S3 = 0.03
+    }
+
+    animateSpinner(with: animationTime + 0.0525) {
+      rotationDegreeS2 += fullRotation
+    }
+
+    animateSpinner(with: animationTime + 0.225) {
+      rotationDegreeS3 += fullRotation
+    }
+  }
+
+  private func animateSpinner(with timeInterval: Double, completion: @escaping @MainActor () -> Void) {
+    Timer.scheduledTimer(withTimeInterval: timeInterval, repeats: false) { _ in
+      Task { @MainActor in
+        withAnimation(Animation.easeInOut(duration: animationTime / 2)) {
+          completion()
+        }
+      }
+    }
+  }
+}
+
+private struct SpinnerCircle: View {
+  var start: CGFloat
+  var end: CGFloat
+  var rotation: Angle
+  var color: Color
+  var lineWidh: CGFloat
+
+  var body: some View {
+    Circle()
+      .trim(from: start, to: end)
+      .stroke(style: StrokeStyle(lineWidth: lineWidh, lineCap: .round))
+      .fill(color)
+      .rotationEffect(rotation)
+  }
+}
+
+#Preview {
+  ShapeProgressView()
+}
