@@ -8,7 +8,7 @@ struct AMRotatingSegment: View {
   private let gradientColors: [Color]
   private let size: Size
   private let lineWidth: CGFloat
-  private let segmentLength: CGFloat = 0.25 // 25% of the circle
+  private let segmentLength: CGFloat = 0.25
   private let strokeStyle: StrokeStyle
 
   enum Size {
@@ -102,6 +102,7 @@ struct AMRotatingSegment: View {
         value: rotation
       )
       .onChange(of: isAnimating, initial: true) { _, _ in
+        guard isAnimating else { return }
         rotation = isAnimating ? .degrees(360) : .degrees(0)
       }
   }

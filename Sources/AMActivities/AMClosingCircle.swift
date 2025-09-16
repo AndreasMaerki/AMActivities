@@ -8,32 +8,9 @@ struct AMClosingCircle: View {
   private let animationDuration: Double
   private let arcLength: CGFloat = 1.1
   private let gradientColors: [Color]
-  private let size: Size
+  private let size: AMActivityIndicatorSize
   private let lineWidth: CGFloat
   private let strokeStyle: StrokeStyle
-
-  enum Size {
-    case small
-    case medium
-    case large
-    case xLarge
-    case custom(CGSize)
-
-    var value: CGSize {
-      switch self {
-      case .small:
-        .init(width: 32, height: 32)
-      case .medium:
-        .init(width: 48, height: 48)
-      case .large:
-        .init(width: 56, height: 56)
-      case .xLarge:
-        .init(width: 64, height: 64)
-      case let .custom(size):
-        size
-      }
-    }
-  }
 
   /// Initializes the activity indicator.
   /// - Parameters:
@@ -51,7 +28,7 @@ struct AMClosingCircle: View {
     isAnimating: Binding<Bool> = .constant(true),
     gradientColors: [Color] = [.blue, .purple, .pink, .blue],
     animationDuration: Double = 1.5,
-    size: Size = .medium,
+    size: AMActivityIndicatorSize = .medium,
     lineWidth: CGFloat = 6,
   ) {
     _isAnimating = isAnimating

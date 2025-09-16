@@ -15,9 +15,14 @@ struct ShapeProgressView: View {
 
   private let fullRotation: Angle = .degrees(360)
   private let animationTime: Double = 2.5
-  private let lineWidth: Double = 8
-  private let spinnerSize: Double = 200
-  let strokeColor = Color.pink
+  private let lineWidth: Double = 4
+  private let spinnerSize: Double = 100
+
+  let gradient: AngularGradient
+
+  init(gradientColors: [Color] = [.blue, .purple, .pink, .blue]) {
+    gradient = AngularGradient(colors: gradientColors, center: .center)
+  }
 
   var body: some View {
     ZStack {
@@ -25,7 +30,8 @@ struct ShapeProgressView: View {
         start: startPosition,
         end: endPositionS2S3,
         rotation: rotationDegreeS3,
-        color: strokeColor.opacity(0.3),
+        gradient: gradient,
+        opacity: 0.3,
         lineWidh: lineWidth
       )
 
@@ -33,7 +39,8 @@ struct ShapeProgressView: View {
         start: startPosition,
         end: endPositionS2S3,
         rotation: rotationDegreeS2,
-        color: strokeColor.opacity(0.5),
+        gradient: gradient,
+        opacity: 0.5,
         lineWidh: lineWidth
       )
 
@@ -41,20 +48,31 @@ struct ShapeProgressView: View {
         start: startPosition,
         end: endPositionS1,
         rotation: rotationDegreeS1,
-        color: strokeColor,
+        gradient: gradient,
+        opacity: 1,
         lineWidh: lineWidth
       )
-      CartShape()
+
+      FancyDiamond()
+        .stroke(style: StrokeStyle(
+          lineWidth: lineWidth,
+          lineCap: .round,
+          lineJoin: .round
+        ))
+        .foregroundStyle(gradient)
+        .frame(width: spinnerSize * 0.8, height: spinnerSize * 0.8)
+        .offset(x: -(spinnerSize / 40), y: spinnerSize / 100)
+        .opacity(0.1)
+
+      FancyDiamond()
         .trim(from: drawingDirectionToggle ? 0 : 1, to: 1)
-        .stroke(
-          strokeColor,
-          style: StrokeStyle(
-            lineWidth: lineWidth,
-            lineCap: .round,
-            lineJoin: .round
-          )
-        )
-        .frame(width: spinnerSize * 0.45, height: spinnerSize * 0.45)
+        .stroke(style: StrokeStyle(
+          lineWidth: lineWidth,
+          lineCap: .round,
+          lineJoin: .round
+        ))
+        .foregroundStyle(gradient)
+        .frame(width: spinnerSize * 0.8, height: spinnerSize * 0.8)
         .offset(x: -(spinnerSize / 40), y: spinnerSize / 100)
     }
     .frame(width: spinnerSize, height: spinnerSize)
@@ -111,14 +129,15 @@ private struct SpinnerCircle: View {
   var start: CGFloat
   var end: CGFloat
   var rotation: Angle
-  var color: Color
+  var gradient: AngularGradient
+  var opacity: Double
   var lineWidh: CGFloat
 
   var body: some View {
     Circle()
       .trim(from: start, to: end)
       .stroke(style: StrokeStyle(lineWidth: lineWidh, lineCap: .round))
-      .fill(color)
+      .foregroundStyle(gradient.opacity(opacity))
       .rotationEffect(rotation)
   }
 }
