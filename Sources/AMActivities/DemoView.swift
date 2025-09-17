@@ -5,22 +5,30 @@ struct DemoView: View {
 
   @State var isVisible = true
 
+  private let size: CGFloat = 50
+
   var body: some View {
     LazyVGrid(columns: columns, spacing: 10) {
       AMActivityIndicator(isVisible: $isVisible, type: .closingCircle())
-        .frame(width: 100, height: 100)
+        .frame(width: size, height: size)
         .padding()
       AMActivityIndicator(isVisible: $isVisible, type: .flickerRing(count: 10, spokeType: .bar))
-        .frame(width: 100, height: 100)
+        .frame(width: size, height: size)
+        .padding()
+      AMActivityIndicator(isVisible: $isVisible, type: .flickerRing(count: 10, spokeType: .ellipse))
+        .frame(width: size, height: size)
+        .padding()
+      AMActivityIndicator(isVisible: $isVisible, type: .flickerRing(count: 8, spokeType: .circle))
+        .frame(width: size, height: size)
         .padding()
       AMActivityIndicator(isVisible: $isVisible, type: .rotatingSegment())
-        .frame(width: 100, height: 100)
+        .frame(width: size, height: size)
         .padding()
-      AMActivityIndicator(isVisible: $isVisible, type: .shapeProgressView())
-        .frame(width: 100, height: 100)
+      AMActivityIndicator(isVisible: $isVisible, type: .shapeProgressView(lineWidth: 2))
+        .frame(width: size, height: size)
         .padding()
       AMActivityIndicator(isVisible: $isVisible, type: .trimmedCircle())
-        .frame(width: 100, height: 100)
+        .frame(width: size, height: size)
         .padding()
     }
     .padding()

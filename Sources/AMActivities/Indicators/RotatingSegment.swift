@@ -6,7 +6,6 @@ struct RotatingSegment: View {
 
   private let animationDuration: Double
   private let gradientColors: [Color]
-  private let size: AMActivityIndicatorSize
   private let lineWidth: CGFloat
   private let segmentLength: CGFloat = 0.25
   private let strokeStyle: StrokeStyle
@@ -28,13 +27,11 @@ struct RotatingSegment: View {
     isAnimating: Binding<Bool> = .constant(true),
     gradientColors: [Color] = [.blue, .purple, .pink, .blue],
     animationDuration: Double = 1.5,
-    size: AMActivityIndicatorSize = .medium,
     lineWidth: CGFloat = 6,
   ) {
     _isAnimating = isAnimating
     self.gradientColors = gradientColors
     self.animationDuration = animationDuration
-    self.size = size
     self.lineWidth = lineWidth
 
     strokeStyle = StrokeStyle(
@@ -58,7 +55,6 @@ struct RotatingSegment: View {
           )
         segmentedAnimation
       }
-      .frame(width: size.value.width, height: size.value.height)
     }
   }
 
@@ -86,5 +82,11 @@ struct RotatingSegment: View {
 }
 
 #Preview {
-  RotatingSegment()
+  RotatingSegment(
+    isAnimating: .constant(true),
+    gradientColors: [.blue, .purple, .pink, .blue],
+    animationDuration: 1.5,
+    lineWidth: 6,
+  )
+  .frame(width: 100, height: 100)
 }

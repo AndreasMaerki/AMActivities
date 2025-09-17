@@ -1,12 +1,11 @@
 import SwiftUI
 
 public struct AMActivityIndicator: View {
-  public enum IndicatorType {
+  public enum SegmentType {
     case closingCircle(
       isAnimating: Binding<Bool> = .constant(true),
       gradientColors: [Color] = [.blue, .purple, .pink, .blue],
       animationDuration: Double = 1.5,
-      size: AMActivityIndicatorSize = .medium,
       lineWidth: CGFloat = 6,
     )
     case flickerRing(
@@ -16,7 +15,6 @@ public struct AMActivityIndicator: View {
     case trimmedCircle(
       isAnimating: Binding<Bool> = .constant(true),
       gradientColors: [Color] = [.blue, .purple, .pink, .yellow, .blue],
-      size: AMActivityIndicatorSize = .medium,
       circleTrim: CGFloat = 0.8,
       animationDuration: Double = 1.0,
       lineWidth: CGFloat = 6
@@ -25,16 +23,16 @@ public struct AMActivityIndicator: View {
       isAnimating: Binding<Bool> = .constant(true),
       gradientColors: [Color] = [.blue, .purple, .pink, .blue],
       animationDuration: Double = 1.5,
-      size: AMActivityIndicatorSize = .medium,
       lineWidth: CGFloat = 6
     )
     case shapeProgressView(
-      gradientColors: [Color] = [.blue, .purple, .pink, .blue]
+      gradientColors: [Color] = [.blue, .purple, .pink, .blue],
+      lineWidth: CGFloat = 4
     )
   }
 
   @Binding public var isVisible: Bool
-  public var type: IndicatorType
+  public var type: SegmentType
 
   public var body: some View {
     if isVisible {
@@ -51,14 +49,12 @@ public struct AMActivityIndicator: View {
         isAnimating,
         gradientColors,
         animationDuration,
-        size,
         lineWidth
       ):
         ClosingCircle(
           isAnimating: isAnimating,
           gradientColors: gradientColors,
           animationDuration: animationDuration,
-          size: size,
           lineWidth: lineWidth
         )
       case let .flickerRing(
@@ -72,7 +68,6 @@ public struct AMActivityIndicator: View {
       case let .trimmedCircle(
         isAnimating,
         gradientColors,
-        size,
         circleTrim,
         animationDuration,
         lineWidth
@@ -80,7 +75,6 @@ public struct AMActivityIndicator: View {
         TrimmedCircle(
           isAnimating: isAnimating,
           gradientColors: gradientColors,
-          size: size,
           circleTrim: circleTrim,
           animationDuration: animationDuration,
           lineWidth: lineWidth
@@ -89,21 +83,20 @@ public struct AMActivityIndicator: View {
         isAnimating,
         gradientColors,
         animationDuration,
-        size,
         lineWidth
       ):
         RotatingSegment(
           isAnimating: isAnimating,
           gradientColors: gradientColors,
           animationDuration: animationDuration,
-          size: size,
           lineWidth: lineWidth
         )
       case let .shapeProgressView(
-        gradientColors
+        gradientColors,
+        lineWidth: lineWidth
       ):
         ShapeProgressView(
-          gradientColors: gradientColors
+          gradientColors: gradientColors, lineWidth: lineWidth
         )
       }
     }
@@ -112,5 +105,5 @@ public struct AMActivityIndicator: View {
 
 #Preview {
   AMActivityIndicator(isVisible: .constant(true), type: .flickerRing())
-    .frame(width: 50, height: 50)
+    .frame(width: 200, height: 200)
 }

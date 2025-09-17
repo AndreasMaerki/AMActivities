@@ -8,7 +8,6 @@ struct ClosingCircle: View {
   private let animationDuration: Double
   private let arcLength: CGFloat = 1.1
   private let gradientColors: [Color]
-  private let size: AMActivityIndicatorSize
   private let lineWidth: CGFloat
   private let strokeStyle: StrokeStyle
 
@@ -25,16 +24,14 @@ struct ClosingCircle: View {
   /// FancyActivityIndicator(isAnimating: $isLoading)
   /// ```
   init(
-    isAnimating: Binding<Bool> = .constant(true),
-    gradientColors: [Color] = [.blue, .purple, .pink, .blue],
-    animationDuration: Double = 1.5,
-    size: AMActivityIndicatorSize = .medium,
-    lineWidth: CGFloat = 6,
+    isAnimating: Binding<Bool>,
+    gradientColors: [Color],
+    animationDuration: Double,
+    lineWidth: CGFloat
   ) {
     _isAnimating = isAnimating
     self.gradientColors = gradientColors
     self.animationDuration = animationDuration
-    self.size = size
     self.lineWidth = lineWidth
 
     strokeStyle = StrokeStyle(
@@ -58,7 +55,6 @@ struct ClosingCircle: View {
           )
         closingAnimation
       }
-      .frame(width: size.value.width, height: size.value.height)
     }
   }
 
@@ -85,5 +81,11 @@ struct ClosingCircle: View {
 }
 
 #Preview {
-  ClosingCircle()
+  ClosingCircle(
+    isAnimating: .constant(true),
+    gradientColors: [.blue, .purple, .pink, .blue],
+    animationDuration: 1.5,
+    lineWidth: 6,
+  )
+  .frame(width: 50, height: 50)
 }

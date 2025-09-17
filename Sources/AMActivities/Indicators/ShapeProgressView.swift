@@ -15,13 +15,13 @@ struct ShapeProgressView: View {
 
   private let fullRotation: Angle = .degrees(360)
   private let animationTime: Double = 2.5
-  private let lineWidth: Double = 4
-  private let spinnerSize: Double = 100
+  let lineWidth: Double
 
   let gradient: AngularGradient
 
-  init(gradientColors: [Color] = [.blue, .purple, .pink, .blue]) {
+  init(gradientColors: [Color], lineWidth: Double) {
     gradient = AngularGradient(colors: gradientColors, center: .center)
+    self.lineWidth = lineWidth
   }
 
   var body: some View {
@@ -30,25 +30,24 @@ struct ShapeProgressView: View {
         start: startPosition,
         end: endPositionS2S3,
         rotation: rotationDegreeS3,
-        gradient: gradient,
         opacity: 0.3,
         lineWidh: lineWidth
       )
+      .opacity(0.3)
 
       SpinnerCircle(
         start: startPosition,
         end: endPositionS2S3,
         rotation: rotationDegreeS2,
-        gradient: gradient,
         opacity: 0.5,
         lineWidh: lineWidth
       )
+      .opacity(0.5)
 
       SpinnerCircle(
         start: startPosition,
         end: endPositionS1,
         rotation: rotationDegreeS1,
-        gradient: gradient,
         opacity: 1,
         lineWidh: lineWidth
       )
@@ -59,10 +58,9 @@ struct ShapeProgressView: View {
           lineCap: .round,
           lineJoin: .round
         ))
-        .foregroundStyle(gradient)
-        .frame(width: spinnerSize * 0.8, height: spinnerSize * 0.8)
-        .offset(x: -(spinnerSize / 40), y: spinnerSize / 100)
         .opacity(0.1)
+        .scaledToFit()
+        .scaleEffect(0.9)
 
       FancyDiamond()
         .trim(from: drawingDirectionToggle ? 0 : 1, to: 1)
@@ -71,11 +69,10 @@ struct ShapeProgressView: View {
           lineCap: .round,
           lineJoin: .round
         ))
-        .foregroundStyle(gradient)
-        .frame(width: spinnerSize * 0.8, height: spinnerSize * 0.8)
-        .offset(x: -(spinnerSize / 40), y: spinnerSize / 100)
+        .scaledToFit()
+        .scaleEffect(0.9)
     }
-    .frame(width: spinnerSize, height: spinnerSize)
+    .foregroundStyle(gradient)
     .onAppear {
       Timer.scheduledTimer(withTimeInterval: animationTime, repeats: true) { _ in
         Task { @MainActor in
@@ -129,7 +126,6 @@ private struct SpinnerCircle: View {
   var start: CGFloat
   var end: CGFloat
   var rotation: Angle
-  var gradient: AngularGradient
   var opacity: Double
   var lineWidh: CGFloat
 
@@ -137,11 +133,11 @@ private struct SpinnerCircle: View {
     Circle()
       .trim(from: start, to: end)
       .stroke(style: StrokeStyle(lineWidth: lineWidh, lineCap: .round))
-      .foregroundStyle(gradient.opacity(opacity))
       .rotationEffect(rotation)
   }
 }
 
 #Preview {
-  ShapeProgressView()
+  ShapeProgressView(gradientColors: [.blue, .yellow, .pink, .blue], lineWidth: 4)
+    .frame(width: 200, height: 200)
 }
