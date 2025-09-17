@@ -1,15 +1,16 @@
 import SwiftUI
 
-struct AMFlickerRingProgressView: View {
+public enum SpokeType: Sendable {
+  case bar
+  case circle
+  case ellipse
+}
+
+struct FlickerRing: View {
   let count: Int
   let animationDuration: Double = 1.0
   let spokeType: SpokeType
-
-  enum SpokeType {
-    case bar
-    case circle
-    case ellipse
-  }
+  let gradientColors: [Color] = [.red, .purple, .pink, .red]
 
   var body: some View {
     GeometryReader { geometry in
@@ -33,7 +34,7 @@ struct AMFlickerRingProgressView: View {
             }
           }
 
-          AngularGradient(colors: [.red, .purple, .pink, .red], center: .center)
+          AngularGradient(colors: gradientColors, center: .center)
             .mask(groupContent)
         }
         .frame(width: geometry.size.width, height: geometry.size.height)
@@ -47,7 +48,7 @@ private struct FlickeringBarItem: View {
   let count: Int
   let size: CGSize
   let globalPhase: Double
-  let type: AMFlickerRingProgressView.SpokeType
+  let type: SpokeType
 
   // MARK: Layout variables
 
@@ -125,6 +126,6 @@ private struct FlickeringBarItem: View {
 }
 
 #Preview {
-  AMFlickerRingProgressView(count: 10, spokeType: .bar)
+  FlickerRing(count: 10, spokeType: .bar)
     .frame(width: 300, height: 300)
 }

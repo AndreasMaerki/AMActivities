@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AMGradientSpinner: View {
+struct TrimmedCircle: View {
   @Binding private var isAnimating: Bool
   @State private var rotation = false
 
@@ -60,5 +60,5 @@ struct AMGradientSpinner: View {
 }
 
 #Preview {
-  AMGradientSpinner(isAnimating: .constant(true))
+  TrimmedCircle(isAnimating: .constant(true))
 }

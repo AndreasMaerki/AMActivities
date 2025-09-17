@@ -1,28 +1,28 @@
 import SwiftUI
 
-struct AMClosingCircle: View {
-  @State private var progress: CGFloat = 0.0
+struct RotatingSegment: View {
   @State private var rotation: Angle = .degrees(0)
   @Binding private var isAnimating: Bool
 
   private let animationDuration: Double
-  private let arcLength: CGFloat = 1.1
   private let gradientColors: [Color]
   private let size: AMActivityIndicatorSize
   private let lineWidth: CGFloat
+  private let segmentLength: CGFloat = 0.25
   private let strokeStyle: StrokeStyle
 
-  /// Initializes the activity indicator.
+  /// A rotating segment spinner with optional gradient stroke.
+  ///
   /// - Parameters:
-  ///   - isAnimating: A binding to control the animation state. When `true`, the spinner rotates continuously. Defaults to `.constant(true)` for immediate animation on appearance.
-  ///   - gradientColors:  An array of colors for the angular gradient stroke. Defaults to `[.blue, .purple, .pink, .blue]`. Inject a single color,i.e. `[.blue] `for no gradient.
-  ///   - animationDuration: The duration of one full rotation cycle in seconds. Affects spin speed. Defaults to `1.5`.
-  ///   - size: Determines the size of the indicator. Use .custom to define your own
-  ///   - lineWidth: The line width of the circle.
+  ///   - isAnimating: Binds animation state. When `true`, the segment rotates continuously.
+  ///   - gradientColors: Colors for the arc’s gradient. Use one color (e.g., `[.blue]`) for solid stroke.
+  ///   - animationDuration: Time in seconds for one full rotation. Defaults to 1.5.
+  ///   - size: Predefined or custom size of the spinner. Defaults to `.medium`.
+  ///   - lineWidth: Stroke width of the arc and background circle. Defaults to 6.
   /// Example usage:
   /// ```
   /// @State private var isLoading = true
-  /// FancyActivityIndicator(isAnimating: $isLoading)
+  /// AMRotatingSegment(isAnimating: $isLoading)
   /// ```
   init(
     isAnimating: Binding<Bool> = .constant(true),
@@ -56,15 +56,15 @@ struct AMClosingCircle: View {
             )
             .opacity(0.2)
           )
-        closingAnimation
+        segmentedAnimation
       }
       .frame(width: size.value.width, height: size.value.height)
     }
   }
 
-  private var closingAnimation: some View {
+  private var segmentedAnimation: some View {
     Circle()
-      .trim(from: 0, to: progress * arcLength)
+      .trim(from: 0, to: segmentLength)
       .stroke(style: strokeStyle)
       .foregroundStyle(
         AngularGradient(
@@ -72,18 +72,19 @@ struct AMClosingCircle: View {
           center: .center
         )
       )
-      .rotationEffect(.degrees(-90)) // Start from the top
+      .rotationEffect(rotation + .degrees(-90))
       .animation(
         Animation.linear(duration: animationDuration)
           .repeatForever(autoreverses: false),
-        value: progress
+        value: rotation
       )
       .onChange(of: isAnimating, initial: true) { _, _ in
-        progress = isAnimating ? 1.0 : 0.0
+        guard isAnimating else { return }
+        rotation = isAnimating ? .degrees(360) : .degrees(0)
       }
   }
 }
 
 #Preview {
-  AMClosingCircle()
+  RotatingSegment()
 }

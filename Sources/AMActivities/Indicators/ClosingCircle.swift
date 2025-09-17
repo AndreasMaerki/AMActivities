@@ -1,57 +1,34 @@
 import SwiftUI
 
-struct AMRotatingSegment: View {
+struct ClosingCircle: View {
+  @State private var progress: CGFloat = 0.0
   @State private var rotation: Angle = .degrees(0)
   @Binding private var isAnimating: Bool
 
   private let animationDuration: Double
+  private let arcLength: CGFloat = 1.1
   private let gradientColors: [Color]
-  private let size: Size
+  private let size: AMActivityIndicatorSize
   private let lineWidth: CGFloat
-  private let segmentLength: CGFloat = 0.25
   private let strokeStyle: StrokeStyle
 
-  enum Size {
-    case small
-    case medium
-    case large
-    case xLarge
-    case custom(CGSize)
-
-    var value: CGSize {
-      switch self {
-      case .small:
-        .init(width: 32, height: 32)
-      case .medium:
-        .init(width: 48, height: 48)
-      case .large:
-        .init(width: 56, height: 56)
-      case .xLarge:
-        .init(width: 64, height: 64)
-      case let .custom(size):
-        size
-      }
-    }
-  }
-
-  /// A rotating segment spinner with optional gradient stroke.
-  ///
+  /// Initializes the activity indicator.
   /// - Parameters:
-  ///   - isAnimating: Binds animation state. When `true`, the segment rotates continuously.
-  ///   - gradientColors: Colors for the arc’s gradient. Use one color (e.g., `[.blue]`) for solid stroke.
-  ///   - animationDuration: Time in seconds for one full rotation. Defaults to 1.5.
-  ///   - size: Predefined or custom size of the spinner. Defaults to `.medium`.
-  ///   - lineWidth: Stroke width of the arc and background circle. Defaults to 6.
+  ///   - isAnimating: A binding to control the animation state. When `true`, the spinner rotates continuously. Defaults to `.constant(true)` for immediate animation on appearance.
+  ///   - gradientColors:  An array of colors for the angular gradient stroke. Defaults to `[.blue, .purple, .pink, .blue]`. Inject a single color,i.e. `[.blue] `for no gradient.
+  ///   - animationDuration: The duration of one full rotation cycle in seconds. Affects spin speed. Defaults to `1.5`.
+  ///   - size: Determines the size of the indicator. Use .custom to define your own
+  ///   - lineWidth: The line width of the circle.
   /// Example usage:
   /// ```
   /// @State private var isLoading = true
-  /// AMRotatingSegment(isAnimating: $isLoading)
+  /// FancyActivityIndicator(isAnimating: $isLoading)
   /// ```
   init(
     isAnimating: Binding<Bool> = .constant(true),
     gradientColors: [Color] = [.blue, .purple, .pink, .blue],
     animationDuration: Double = 1.5,
-    size: Size = .medium,
+    size: AMActivityIndicatorSize = .medium,
     lineWidth: CGFloat = 6,
   ) {
     _isAnimating = isAnimating
@@ -79,15 +56,15 @@ struct AMRotatingSegment: View {
             )
             .opacity(0.2)
           )
-        segmentedAnimation
+        closingAnimation
       }
       .frame(width: size.value.width, height: size.value.height)
     }
   }
 
-  private var segmentedAnimation: some View {
+  private var closingAnimation: some View {
     Circle()
-      .trim(from: 0, to: segmentLength)
+      .trim(from: 0, to: progress * arcLength)
       .stroke(style: strokeStyle)
       .foregroundStyle(
         AngularGradient(
@@ -95,19 +72,18 @@ struct AMRotatingSegment: View {
           center: .center
         )
       )
-      .rotationEffect(rotation + .degrees(-90))
+      .rotationEffect(.degrees(-90)) // Start from the top
       .animation(
         Animation.linear(duration: animationDuration)
           .repeatForever(autoreverses: false),
-        value: rotation
+        value: progress
       )
       .onChange(of: isAnimating, initial: true) { _, _ in
-        guard isAnimating else { return }
-        rotation = isAnimating ? .degrees(360) : .degrees(0)
+        progress = isAnimating ? 1.0 : 0.0
       }
   }
 }
 
 #Preview {
-  AMRotatingSegment()
+  ClosingCircle()
 }

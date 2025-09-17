@@ -1,6 +1,6 @@
 import Foundation
 
-enum AMActivityIndicatorSize {
+public enum AMActivityIndicatorSize: Sendable {
   case xSmall
   case small
   case medium
