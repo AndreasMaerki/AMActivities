@@ -19,7 +19,7 @@ public enum EqualizerDirection {
   case horizontal
 }
 
-struct EqualizerIndicator: View {
+struct Equalizer: View {
   let count: Int
   let cornerRadius: CGFloat = 3
   let minScale: CGFloat
@@ -68,7 +68,7 @@ struct EqualizerIndicator: View {
 
       HStack(alignment: .center, spacing: spacing) {
         ForEach(0 ..< count, id: \.self) { index in
-          EqualizerBarView(
+          EqualizerBar(
             index: index,
             count: count,
             cornerRadius: cornerRadius,
@@ -88,7 +88,7 @@ struct EqualizerIndicator: View {
   }
 }
 
-private struct EqualizerBarView: View {
+private struct EqualizerBar: View {
   let index: Int
   let count: Int
   let cornerRadius: CGFloat
@@ -128,7 +128,7 @@ private struct EqualizerBarView: View {
 }
 
 #Preview {
-  EqualizerIndicator(
+  Equalizer(
     count: 5,
     minScale: 0.3,
     maxScale: 1.0,

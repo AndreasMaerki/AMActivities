@@ -48,6 +48,12 @@ struct DemoView: View {
       AMActivityIndicator(isVisible: $isVisible, type: .equalizer(alignment: .bottom, direction: .horizontal))
         .frame(width: size, height: size)
         .padding()
+      AMActivityIndicator(isVisible: $isVisible, type: .scalingDots())
+        .frame(width: size, height: size)
+        .padding()
+      AMActivityIndicator(isVisible: $isVisible, type: .scalingDots(randomize: true))
+        .frame(width: size, height: size)
+        .padding()
     }
     .padding()
   }

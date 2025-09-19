@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ShapeProgressView: View {
+struct ShapeProgress: View {
   @State private var startPosition: CGFloat = 0.0
   @State private var endPositionS1: CGFloat = 0.03
   @State private var endPositionS2S3: CGFloat = 0.06
@@ -138,6 +138,6 @@ private struct SpinnerCircle: View {
 }
 
 #Preview {
-  ShapeProgressView(gradientColors: [.blue, .yellow, .pink, .blue], lineWidth: 4)
+  ShapeProgress(gradientColors: [.blue, .yellow, .pink, .blue], lineWidth: 4)
     .frame(width: 200, height: 200)
 }

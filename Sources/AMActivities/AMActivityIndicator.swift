@@ -39,6 +39,13 @@ public struct AMActivityIndicator: View {
       direction: EqualizerDirection = .vertical,
       randomizeAnimation: Bool = false
     )
+    case scalingDots(
+      count: Int = 3,
+      spacing: CGFloat = 8,
+      randomize: Bool = false,
+      colors: [Color] = [.red, .orange, .yellow, .blue, .purple],
+      animationDuration: Double = 0.6
+    )
   }
 
   @Binding public var isVisible: Bool
@@ -105,7 +112,7 @@ public struct AMActivityIndicator: View {
         gradientColors,
         lineWidth: lineWidth
       ):
-        ShapeProgressView(
+        ShapeProgress(
           gradientColors: gradientColors, lineWidth: lineWidth
         )
       case let .equalizer(
@@ -118,7 +125,7 @@ public struct AMActivityIndicator: View {
         direction,
         randomizeAnimation
       ):
-        EqualizerIndicator(
+        Equalizer(
           count: count,
           minScale: minScale,
           maxScale: maxScale,
@@ -127,6 +134,20 @@ public struct AMActivityIndicator: View {
           alignment: alignment,
           direction: direction,
           randomizeAnimation: randomizeAnimation
+        )
+      case let .scalingDots(
+        count,
+        spacing,
+        randomize,
+        colors,
+        animationDuration
+      ):
+        ScalingDots(
+          count: count,
+          spacing: spacing,
+          randomize: randomize,
+          colors: colors,
+          animationDuration: animationDuration
         )
       }
     }
