@@ -29,6 +29,16 @@ public struct AMActivityIndicator: View {
       gradientColors: [Color] = [.blue, .purple, .pink, .blue],
       lineWidth: CGFloat = 4
     )
+    case equalizer(
+      count: Int = 5,
+      minScale: CGFloat = 0.3,
+      maxScale: CGFloat = 1.0,
+      animationDuration: Double = 0.7,
+      gradientColors: [Color] = [.purple, .pink, .yellow],
+      alignment: EqualizerBarAlignment = .center,
+      direction: EqualizerDirection = .vertical,
+      randomizeAnimation: Bool = false
+    )
   }
 
   @Binding public var isVisible: Bool
@@ -98,12 +108,32 @@ public struct AMActivityIndicator: View {
         ShapeProgressView(
           gradientColors: gradientColors, lineWidth: lineWidth
         )
+      case let .equalizer(
+        count,
+        minScale,
+        maxScale,
+        animationDuration,
+        gradientColors,
+        alignment,
+        direction,
+        randomizeAnimation
+      ):
+        EqualizerIndicator(
+          count: count,
+          minScale: minScale,
+          maxScale: maxScale,
+          animationDuration: animationDuration,
+          gradientColors: gradientColors,
+          alignment: alignment,
+          direction: direction,
+          randomizeAnimation: randomizeAnimation
+        )
       }
     }
   }
 }
 
 #Preview {
-  AMActivityIndicator(isVisible: .constant(true), type: .flickerRing())
+  AMActivityIndicator(isVisible: .constant(true), type: .equalizer())
     .frame(width: 200, height: 200)
 }
