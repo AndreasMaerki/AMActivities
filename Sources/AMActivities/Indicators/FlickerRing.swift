@@ -8,9 +8,9 @@ public enum SpokeType: Sendable {
 
 struct FlickerRing: View {
   let count: Int
-  let animationDuration: Double = 1.0
+  let animationDuration: Double
   let spokeType: SpokeType
-  let gradientColors: [Color] = [.red, .purple, .pink, .red]
+  let gradientColors: [Color]
 
   var body: some View {
     GeometryReader { geometry in
@@ -126,6 +126,11 @@ private struct FlickeringBarItem: View {
 }
 
 #Preview {
-  FlickerRing(count: 10, spokeType: .bar)
-    .frame(width: 300, height: 300)
+  FlickerRing(
+    count: 10,
+    animationDuration: 1,
+    spokeType: .bar,
+    gradientColors: [.red, .blue, .yellow]
+  )
+  .frame(width: 300, height: 300)
 }

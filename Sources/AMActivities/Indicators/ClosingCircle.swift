@@ -13,15 +13,14 @@ struct ClosingCircle: View {
 
   /// Initializes the activity indicator.
   /// - Parameters:
-  ///   - isAnimating: A binding to control the animation state. When `true`, the spinner rotates continuously. Defaults to `.constant(true)` for immediate animation on appearance.
-  ///   - gradientColors:  An array of colors for the angular gradient stroke. Defaults to `[.blue, .purple, .pink, .blue]`. Inject a single color,i.e. `[.blue] `for no gradient.
-  ///   - animationDuration: The duration of one full rotation cycle in seconds. Affects spin speed. Defaults to `1.5`.
-  ///   - size: Determines the size of the indicator. Use .custom to define your own
+  ///   - isAnimating: A binding to control the animation state. When `true`, the spinner rotates continuously.
+  ///   - gradientColors:  An array of colors for the angular gradient stroke. Inject a single color,i.e. `[.blue] `for no gradient.
+  ///   - animationDuration: The duration of one full rotation cycle in seconds. Affects spin speed.
   ///   - lineWidth: The line width of the circle.
   /// Example usage:
   /// ```
   /// @State private var isLoading = true
-  /// FancyActivityIndicator(isAnimating: $isLoading)
+  /// ClosingCircle(isAnimating: $isLoading)
   /// ```
   init(
     isAnimating: Binding<Bool>,

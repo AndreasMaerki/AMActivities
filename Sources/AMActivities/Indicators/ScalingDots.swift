@@ -1,5 +1,49 @@
 import SwiftUI
 
+/// An animated row of scaling dots, styled with a horizontal gradient mask.
+///
+/// `ScalingDots` creates a sequence of dots that continuously scale up and down
+/// in size to produce a pulsing or "bouncing" animation effect.
+/// The animation can be deterministic (staggered delays) or randomized to create
+/// a more dynamic, organic motion.
+///
+/// A horizontal `LinearGradient` fill is applied across the entire row of dots
+/// and then masked to the animated dots, producing colorful effects.
+///
+/// - Parameters:
+///   - count: The number of dots to display. For example, `3` produces a classic
+///     pulsing typing indicator.
+///   - spacing: The amount of horizontal spacing between each dot, in points.
+///   - randomize: A Boolean flag that controls whether each dot uses randomized
+///     delays and durations (`true`) or evenly staggered deterministic values (`false`).
+///   - colors: An array of `Color` values used to create the `LinearGradient`
+///     that fills the dots. Colors blend smoothly across the row.
+///   - animationDuration: The base duration (in seconds) for one scale animation cycle.
+///     Lower values make the scaling faster; higher values make it slower.
+///
+/// Example:
+/// ```swift
+/// ScalingDots(
+///     count: 3,
+///     spacing: 12,
+///     randomize: false,
+///     colors: [.red, .orange, .yellow, .green, .blue, .purple],
+///     animationDuration: 0.6
+/// )
+/// .frame(width: 250, height: 50)
+/// ```
+///
+/// Example with randomized animation:
+/// ```swift
+/// ScalingDots(
+///     count: 3,
+///     spacing: 12,
+///     randomize: true,
+///     colors: [.pink, .cyan, .purple],
+///     animationDuration: 0.5
+/// )
+/// .frame(width: 250, height: 50)
+/// ```
 struct ScalingDots: View {
   let count: Int
   let spacing: CGFloat

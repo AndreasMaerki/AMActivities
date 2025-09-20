@@ -21,13 +21,13 @@ struct RotatingSegment: View {
   /// Example usage:
   /// ```
   /// @State private var isLoading = true
-  /// AMRotatingSegment(isAnimating: $isLoading)
+  /// RotatingSegment(isAnimating: $isLoading)
   /// ```
   init(
-    isAnimating: Binding<Bool> = .constant(true),
-    gradientColors: [Color] = [.blue, .purple, .pink, .blue],
-    animationDuration: Double = 1.5,
-    lineWidth: CGFloat = 6,
+    isAnimating: Binding<Bool>,
+    gradientColors: [Color],
+    animationDuration: Double,
+    lineWidth: CGFloat
   ) {
     _isAnimating = isAnimating
     self.gradientColors = gradientColors
