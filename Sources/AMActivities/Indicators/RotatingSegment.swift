@@ -43,18 +43,16 @@ struct RotatingSegment: View {
 
   var body: some View {
     ZStack {
-      Group {
-        Circle()
-          .stroke(style: strokeStyle)
-          .foregroundStyle(
-            AngularGradient(
-              colors: gradientColors,
-              center: .center
-            )
-            .opacity(0.2)
+      Circle()
+        .stroke(style: strokeStyle)
+        .foregroundStyle(
+          AngularGradient(
+            colors: gradientColors,
+            center: .center
           )
-        segmentedAnimation
-      }
+          .opacity(0.2)
+        )
+      segmentedAnimation
     }
   }
 

@@ -5,7 +5,6 @@ struct TrimmedCircle: View {
   @State private var rotation = false
 
   private let gradientColors: [Color]
-//  private let size: AMActivityIndicatorSize
   private let lineWidth: CGFloat
   private let animationDuration: Double
   private let circleTrim: CGFloat
@@ -22,14 +21,12 @@ struct TrimmedCircle: View {
   init(
     isAnimating: Binding<Bool> = .constant(true),
     gradientColors: [Color] = [.blue, .purple, .pink, .yellow, .blue],
-//    size: AMActivityIndicatorSize = .medium,
     circleTrim: CGFloat = 0.8,
     animationDuration: Double = 1.0,
     lineWidth: CGFloat = 6
   ) {
     _isAnimating = isAnimating
     self.gradientColors = gradientColors
-//    self.size = size
     self.lineWidth = lineWidth
     self.circleTrim = circleTrim
     self.animationDuration = animationDuration
@@ -45,7 +42,6 @@ struct TrimmedCircle: View {
         ),
         style: .init(lineWidth: lineWidth, lineCap: .round)
       )
-//      .frame(width: size.value.width, height: size.value.height)
       .rotationEffect(.degrees(rotation ? 360 : 0))
       .onChange(of: isAnimating, initial: true) { _, _ in
         guard isAnimating else { return }
