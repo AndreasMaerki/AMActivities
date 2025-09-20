@@ -2,7 +2,6 @@ import SwiftUI
 
 struct RotatingSegment: View {
   @State private var rotation: Angle = .degrees(0)
-  @Binding private var isAnimating: Bool
 
   private let animationDuration: Double
   private let gradientColors: [Color]
@@ -13,23 +12,19 @@ struct RotatingSegment: View {
   /// A rotating segment spinner with optional gradient stroke.
   ///
   /// - Parameters:
-  ///   - isAnimating: Binds animation state. When `true`, the segment rotates continuously.
-  ///   - gradientColors: Colors for the arc’s gradient. Use one color (e.g., `[.blue]`) for solid stroke.
+  ///   - gradientColors: Colors for the arc's gradient. Use one color (e.g., `[.blue]`) for solid stroke.
   ///   - animationDuration: Time in seconds for one full rotation. Defaults to 1.5.
   ///   - size: Predefined or custom size of the spinner. Defaults to `.medium`.
   ///   - lineWidth: Stroke width of the arc and background circle. Defaults to 6.
   /// Example usage:
   /// ```
-  /// @State private var isLoading = true
-  /// RotatingSegment(isAnimating: $isLoading)
+  /// RotatingSegment(gradientColors: [.blue, .purple, .pink])
   /// ```
   init(
-    isAnimating: Binding<Bool>,
     gradientColors: [Color],
     animationDuration: Double,
     lineWidth: CGFloat
   ) {
-    _isAnimating = isAnimating
     self.gradientColors = gradientColors
     self.animationDuration = animationDuration
     self.lineWidth = lineWidth
@@ -72,19 +67,17 @@ struct RotatingSegment: View {
           .repeatForever(autoreverses: false),
         value: rotation
       )
-      .onChange(of: isAnimating, initial: true) { _, _ in
-        guard isAnimating else { return }
-        rotation = isAnimating ? .degrees(360) : .degrees(0)
+      .onAppear {
+        rotation = .degrees(360)
       }
   }
 }
 
 #Preview {
   RotatingSegment(
-    isAnimating: .constant(true),
     gradientColors: [.blue, .purple, .pink, .blue],
     animationDuration: 1.5,
-    lineWidth: 6,
+    lineWidth: 6
   )
   .frame(width: 100, height: 100)
 }

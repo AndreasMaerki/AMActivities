@@ -4,17 +4,14 @@ public struct AMActivityIndicator: View {
   public enum IndicatorType {
     /// Initializes the activity indicator.
     /// - Parameters:
-    ///   - isAnimating: A binding to control the animation state. When `true`, the spinner rotates continuously. Defaults to `.constant(true)` for immediate animation on appearance.
     ///   - gradientColors:  An array of colors for the angular gradient stroke. Defaults to `[.blue, .purple, .pink, .blue]`. Inject a single color,i.e. `[.blue] `for no gradient.
     ///   - animationDuration: The duration of one full rotation cycle in seconds. Affects spin speed. Defaults to `1.5`.
     ///   - lineWidth: The line width of the circle.
     /// Example usage:
     /// ```
-    /// @State private var isLoading = true
-    /// AMActivityIndicator.closingCircle(isAnimating: $isLoading)
+    /// AMActivityIndicator.closingCircle()
     /// ```
     case closingCircle(
-      isAnimating: Binding<Bool> = .constant(true),
       gradientColors: [Color] = [.blue, .purple, .pink, .blue],
       animationDuration: Double = 1.5,
       lineWidth: CGFloat = 6,
@@ -57,19 +54,16 @@ public struct AMActivityIndicator: View {
     /// Creates a new `SimpleGradientSpinner`, a circular gradient-based activity indicator.
     ///
     /// - Parameters:
-    ///   - isAnimating: A binding that controls whether the spinner rotates. Defaults to `true`.
     ///   - gradientColors: The colors of the angular gradient applied to the spinner stroke. Defaults to `[.blue, .purple, .pink, .yellow, .blue]`. Inject a single color,i.e. `[.blue] `for no gradient.
     ///   - size: The spinner size, defined by `AMActivityIndicatorSize` (e.g. `.small`, `.medium`, `.large`). Defaults to `.medium`.
-    ///   - circleTrim: The fraction of the circle’s circumference that is drawn (0.0–1.0). Smaller values create a "gap" in the spinner. Defaults to `0.8`.
+    ///   - circleTrim: The fraction of the circle's circumference that is drawn (0.0–1.0). Smaller values create a "gap" in the spinner. Defaults to `0.8`.
     ///   - animationDuration: The duration, in seconds, for one full rotation. Defaults to `1.0`.
     ///   - lineWidth: The thickness of the spinner stroke. Defaults to `6`.
     /// Example usage:
     /// ```
-    /// @State private var isLoading = true
-    /// AMActivityIndicator.trimmedCircle(isAnimating: $isLoading)
+    /// AMActivityIndicator.trimmedCircle()
     /// ```
     case trimmedCircle(
-      isAnimating: Binding<Bool> = .constant(true),
       gradientColors: [Color] = [.blue, .purple, .pink, .yellow, .blue],
       circleTrim: CGFloat = 0.8,
       animationDuration: Double = 1.0,
@@ -79,18 +73,15 @@ public struct AMActivityIndicator: View {
     /// A rotating segment spinner with optional gradient stroke.
     ///
     /// - Parameters:
-    ///   - isAnimating: Binds animation state. When `true`, the segment rotates continuously.
-    ///   - gradientColors: Colors for the arc’s gradient. Use one color (e.g., `[.blue]`) for solid stroke.
+    ///   - gradientColors: Colors for the arc's gradient. Use one color (e.g., `[.blue]`) for solid stroke.
     ///   - animationDuration: Time in seconds for one full rotation. Defaults to 1.5.
     ///   - size: Predefined or custom size of the spinner. Defaults to `.medium`.
     ///   - lineWidth: Stroke width of the arc and background circle. Defaults to 6.
     /// Example usage:
     /// ```
-    /// @State private var isLoading = true
-    /// AMActivityIndicator.rotatingSegment(isAnimating: $isLoading)
+    /// AMActivityIndicator.rotatingSegment()
     /// ```
     case rotatingSegment(
-      isAnimating: Binding<Bool> = .constant(true),
       gradientColors: [Color] = [.blue, .purple, .pink, .blue],
       animationDuration: Double = 1.5,
       lineWidth: CGFloat = 6
@@ -229,13 +220,11 @@ public struct AMActivityIndicator: View {
     ZStack {
       switch type {
       case let .closingCircle(
-        isAnimating,
         gradientColors,
         animationDuration,
         lineWidth
       ):
         ClosingCircle(
-          isAnimating: isAnimating,
           gradientColors: gradientColors,
           animationDuration: animationDuration,
           lineWidth: lineWidth
@@ -253,27 +242,23 @@ public struct AMActivityIndicator: View {
           gradientColors: gradientColors
         )
       case let .trimmedCircle(
-        isAnimating,
         gradientColors,
         circleTrim,
         animationDuration,
         lineWidth
       ):
         TrimmedCircle(
-          isAnimating: isAnimating,
           gradientColors: gradientColors,
           circleTrim: circleTrim,
           animationDuration: animationDuration,
           lineWidth: lineWidth
         )
       case let .rotatingSegment(
-        isAnimating,
         gradientColors,
         animationDuration,
         lineWidth
       ):
         RotatingSegment(
-          isAnimating: isAnimating,
           gradientColors: gradientColors,
           animationDuration: animationDuration,
           lineWidth: lineWidth
