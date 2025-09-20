@@ -21,8 +21,9 @@ public enum ShapeProgressShapeType {
   case fancyDiamondShape
   case flareFlowerShape
   case custom(AnyShape)
+  case none
 
-  var shape: AnyShape {
+  var shape: AnyShape? {
     switch self {
     case .sparklesShape: AnyShape(SparklesShape())
     case .starShape: AnyShape(StarShape())
@@ -30,6 +31,7 @@ public enum ShapeProgressShapeType {
     case .fancyDiamondShape: AnyShape(FancyDiamondShape())
     case .flareFlowerShape: AnyShape(FlareFlowerShape())
     case let .custom(customShape): customShape
+    case .none: nil
     }
   }
 }
@@ -111,25 +113,27 @@ struct ShapeProgress: View {
         lineWidth: lineWidth
       )
 
-      shape.shape
-        .stroke(style: StrokeStyle(
-          lineWidth: lineWidth,
-          lineCap: .round,
-          lineJoin: .round
-        ))
-        .opacity(0.1)
-        .scaledToFit()
-        .scaleEffect(0.9)
+      if let shape = shape.shape {
+        shape
+          .stroke(style: StrokeStyle(
+            lineWidth: lineWidth,
+            lineCap: .round,
+            lineJoin: .round
+          ))
+          .opacity(0.1)
+          .scaledToFit()
+          .scaleEffect(0.9)
 
-      shape.shape
-        .trim(from: drawingDirectionToggle ? 0 : 1, to: 1)
-        .stroke(style: StrokeStyle(
-          lineWidth: lineWidth,
-          lineCap: .round,
-          lineJoin: .round
-        ))
-        .scaledToFit()
-        .scaleEffect(0.9)
+        shape
+          .trim(from: drawingDirectionToggle ? 0 : 1, to: 1)
+          .stroke(style: StrokeStyle(
+            lineWidth: lineWidth,
+            lineCap: .round,
+            lineJoin: .round
+          ))
+          .scaledToFit()
+          .scaleEffect(0.9)
+      }
     }
     .foregroundStyle(gradient)
     .onAppear {

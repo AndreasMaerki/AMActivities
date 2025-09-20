@@ -44,6 +44,13 @@ struct DemoView: View {
           AMActivityIndicator(
             isVisible: $isVisible,
             type: .shapeProgressView(
+              lineWidth: 6,
+              shape: .none
+            )
+          )
+          AMActivityIndicator(
+            isVisible: $isVisible,
+            type: .shapeProgressView(
               lineWidth: 4
             )
           )
