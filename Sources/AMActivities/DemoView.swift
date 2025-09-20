@@ -18,6 +18,7 @@ struct DemoView: View {
           AMActivityIndicator(isVisible: $isVisible, type: .flickerRing(count: 8, spokeType: .circle))
           AMActivityIndicator(isVisible: $isVisible, type: .rotatingSegment())
           AMActivityIndicator(isVisible: $isVisible, type: .shapeProgressView(lineWidth: 4))
+          AMActivityIndicator(isVisible: $isVisible, type: .shapeProgressView(lineWidth: 4, shape: .flareFlowerShape))
           AMActivityIndicator(isVisible: $isVisible, type: .trimmedCircle())
           AMActivityIndicator(isVisible: $isVisible, type: .equalizer())
           AMActivityIndicator(isVisible: $isVisible, type: .equalizer(alignment: .bottom))

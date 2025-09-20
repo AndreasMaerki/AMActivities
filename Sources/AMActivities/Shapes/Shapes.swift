@@ -117,7 +117,7 @@ struct DiamondShape: Shape {
   }
 }
 
-struct FancyDiamond: Shape {
+struct FancyDiamondShape: Shape {
   func path(in rect: CGRect) -> Path {
     let w = rect.width
     let h = rect.height
@@ -164,7 +164,7 @@ struct FancyDiamond: Shape {
 
 import SwiftUI
 
-struct FlareFlower: Shape {
+struct FlareFlowerShape: Shape {
   var petals: Int = 8
   var petalRatio: CGFloat = 0.4 // how much the petals stick inward/outward
 

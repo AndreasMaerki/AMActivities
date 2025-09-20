@@ -27,7 +27,8 @@ public struct AMActivityIndicator: View {
     )
     case shapeProgressView(
       gradientColors: [Color] = [.blue, .purple, .pink, .blue],
-      lineWidth: CGFloat = 4
+      lineWidth: CGFloat = 4,
+      shape: ShapeProgressShapeType = .fancyDiamondShape
     )
     case equalizer(
       count: Int = 5,
@@ -110,10 +111,13 @@ public struct AMActivityIndicator: View {
         )
       case let .shapeProgressView(
         gradientColors,
-        lineWidth: lineWidth
+        lineWidth,
+        shape
       ):
         ShapeProgress(
-          gradientColors: gradientColors, lineWidth: lineWidth
+          gradientColors: gradientColors,
+          lineWidth: lineWidth,
+          shape: shape
         )
       case let .equalizer(
         count,

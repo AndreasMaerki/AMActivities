@@ -1,5 +1,39 @@
 import SwiftUI
 
+// MARK: - Type Eraser for Shape
+
+public struct AnyShape: Shape {
+  private let _path: @Sendable (CGRect) -> Path
+
+  init(_ shape: some Shape) {
+    _path = { rect in shape.path(in: rect) }
+  }
+
+  public func path(in rect: CGRect) -> Path {
+    _path(rect)
+  }
+}
+
+public enum ShapeProgressShapeType {
+  case sparklesShape
+  case starShape
+  case diamondShape
+  case fancyDiamondShape
+  case flareFlowerShape
+  case custom(AnyShape)
+
+  var shape: AnyShape {
+    switch self {
+    case .sparklesShape: AnyShape(SparklesShape())
+    case .starShape: AnyShape(StarShape())
+    case .diamondShape: AnyShape(DiamondShape())
+    case .fancyDiamondShape: AnyShape(FancyDiamondShape())
+    case .flareFlowerShape: AnyShape(FlareFlowerShape())
+    case let .custom(customShape): customShape
+    }
+  }
+}
+
 struct ShapeProgress: View {
   @State private var startPosition: CGFloat = 0.0
   @State private var endPositionS1: CGFloat = 0.03
@@ -19,9 +53,12 @@ struct ShapeProgress: View {
 
   let gradient: AngularGradient
 
-  init(gradientColors: [Color], lineWidth: Double) {
+  let shape: ShapeProgressShapeType
+
+  init(gradientColors: [Color], lineWidth: Double, shape: ShapeProgressShapeType) {
     gradient = AngularGradient(colors: gradientColors, center: .center)
     self.lineWidth = lineWidth
+    self.shape = shape
   }
 
   var body: some View {
@@ -31,7 +68,7 @@ struct ShapeProgress: View {
         end: endPositionS2S3,
         rotation: rotationDegreeS3,
         opacity: 0.3,
-        lineWidh: lineWidth
+        lineWidth: lineWidth
       )
       .opacity(0.3)
 
@@ -40,7 +77,7 @@ struct ShapeProgress: View {
         end: endPositionS2S3,
         rotation: rotationDegreeS2,
         opacity: 0.5,
-        lineWidh: lineWidth
+        lineWidth: lineWidth
       )
       .opacity(0.5)
 
@@ -49,10 +86,10 @@ struct ShapeProgress: View {
         end: endPositionS1,
         rotation: rotationDegreeS1,
         opacity: 1,
-        lineWidh: lineWidth
+        lineWidth: lineWidth
       )
 
-      FancyDiamond()
+      shape.shape
         .stroke(style: StrokeStyle(
           lineWidth: lineWidth,
           lineCap: .round,
@@ -62,7 +99,7 @@ struct ShapeProgress: View {
         .scaledToFit()
         .scaleEffect(0.9)
 
-      FancyDiamond()
+      shape.shape
         .trim(from: drawingDirectionToggle ? 0 : 1, to: 1)
         .stroke(style: StrokeStyle(
           lineWidth: lineWidth,
@@ -127,17 +164,17 @@ private struct SpinnerCircle: View {
   var end: CGFloat
   var rotation: Angle
   var opacity: Double
-  var lineWidh: CGFloat
+  var lineWidth: CGFloat
 
   var body: some View {
     Circle()
       .trim(from: start, to: end)
-      .stroke(style: StrokeStyle(lineWidth: lineWidh, lineCap: .round))
+      .stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
       .rotationEffect(rotation)
   }
 }
 
 #Preview {
-  ShapeProgress(gradientColors: [.blue, .yellow, .pink, .blue], lineWidth: 4)
+  ShapeProgress(gradientColors: [.blue, .yellow, .pink, .blue], lineWidth: 4, shape: .fancyDiamondShape)
     .frame(width: 200, height: 200)
 }
