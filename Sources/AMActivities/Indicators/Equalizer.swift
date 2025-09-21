@@ -28,10 +28,9 @@ struct Equalizer: View {
   let alignment: EqualizerBarAlignment
   let direction: EqualizerDirection
   let randomizeAnimation: Bool
-  let gradient: LinearGradient
 
   /// Creates a new animated equalizer view with configurable bar count, scaling,
-  /// animation behavior, alignment, orientation, and gradient styling.
+  /// animation behavior, alignment and orientation.
   ///
   /// The equalizer is composed of a series of animated bars that repeatedly scale
   /// between a minimum and maximum height (or width, for horizontal orientation).
@@ -47,8 +46,6 @@ struct Equalizer: View {
   ///     Usually `1.0` for full size, but larger values are possible for amplified effect.
   ///   - animationDuration: The base duration (in seconds) of one animation cycle,
   ///     before repeating. A lower value yields faster animation.
-  ///   - gradientColors: An array of `Color` values used to construct a vertical
-  ///     `LinearGradient` fill for the bars.
   ///   - alignment: The vertical alignment of bar scaling, specified with
   ///     ``EqualizerBarAlignment`` (e.g. `.top`, `.center`, `.bottom`).
   ///   - direction: The orientation of the equalizer, specified with
@@ -76,7 +73,6 @@ struct Equalizer: View {
     minScale: CGFloat,
     maxScale: CGFloat,
     animationDuration: Double,
-    gradientColors: [Color],
     alignment: EqualizerBarAlignment,
     direction: EqualizerDirection,
     randomizeAnimation: Bool
@@ -85,11 +81,6 @@ struct Equalizer: View {
     self.minScale = minScale
     self.maxScale = maxScale
     self.animationDuration = animationDuration
-    gradient = LinearGradient(
-      colors: gradientColors,
-      startPoint: .top,
-      endPoint: .bottom
-    )
     self.alignment = alignment
     self.direction = direction
     self.randomizeAnimation = randomizeAnimation
@@ -123,7 +114,6 @@ struct Equalizer: View {
         }
       }
       .frame(width: size.width, height: size.height)
-      .foregroundStyle(gradient)
       .rotationEffect(isHorizontal ? .degrees(90) : .zero)
     }
   }
@@ -174,10 +164,13 @@ private struct EqualizerBar: View {
     minScale: 0.3,
     maxScale: 1.0,
     animationDuration: 0.7,
-    gradientColors: [.blue, .green],
     alignment: .center,
     direction: .vertical,
     randomizeAnimation: false
   )
+  .foregroundStyle(
+    LinearGradient(colors: [.blue, .purple, .pink], startPoint: .bottom, endPoint: .top)
+  )
+
   .frame(width: 100, height: 50)
 }

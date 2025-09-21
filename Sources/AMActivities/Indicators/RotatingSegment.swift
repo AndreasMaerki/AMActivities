@@ -4,28 +4,27 @@ struct RotatingSegment: View {
   @State private var rotation: Angle = .degrees(0)
 
   private let animationDuration: Double
-  private let gradientColors: [Color]
   private let lineWidth: CGFloat
   private let segmentLength: CGFloat = 0.25
   private let strokeStyle: StrokeStyle
 
-  /// A rotating segment spinner with optional gradient stroke.
+  /// A rotating segment spinner.
   ///
   /// - Parameters:
-  ///   - gradientColors: Colors for the arc's gradient. Use one color (e.g., `[.blue]`) for solid stroke.
   ///   - animationDuration: Time in seconds for one full rotation. Defaults to 1.5.
   ///   - size: Predefined or custom size of the spinner. Defaults to `.medium`.
   ///   - lineWidth: Stroke width of the arc and background circle. Defaults to 6.
   /// Example usage:
   /// ```
-  /// RotatingSegment(gradientColors: [.blue, .purple, .pink])
+  /// RotatingSegment(
+  ///   animationDuration: 1.5,
+  ///   lineWidth: 6
+  /// )
   /// ```
   init(
-    gradientColors: [Color],
     animationDuration: Double,
     lineWidth: CGFloat
   ) {
-    self.gradientColors = gradientColors
     self.animationDuration = animationDuration
     self.lineWidth = lineWidth
 
@@ -40,13 +39,7 @@ struct RotatingSegment: View {
     ZStack {
       Circle()
         .stroke(style: strokeStyle)
-        .foregroundStyle(
-          AngularGradient(
-            colors: gradientColors,
-            center: .center
-          )
-          .opacity(0.2)
-        )
+        .opacity(0.2)
       segmentedAnimation
     }
   }
@@ -55,12 +48,6 @@ struct RotatingSegment: View {
     Circle()
       .trim(from: 0, to: segmentLength)
       .stroke(style: strokeStyle)
-      .foregroundStyle(
-        AngularGradient(
-          colors: gradientColors,
-          center: .center
-        )
-      )
       .rotationEffect(rotation + .degrees(-90))
       .animation(
         Animation.linear(duration: animationDuration)
@@ -75,9 +62,9 @@ struct RotatingSegment: View {
 
 #Preview {
   RotatingSegment(
-    gradientColors: [.blue, .purple, .pink, .blue],
     animationDuration: 1.5,
     lineWidth: 6
   )
+  .foregroundStyle(AngularGradient(colors: [.blue, .purple, .pink, .blue], center: .center))
   .frame(width: 100, height: 100)
 }

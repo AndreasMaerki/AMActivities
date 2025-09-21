@@ -53,34 +53,28 @@ struct ShapeProgress: View {
   private let animationTime: Double = 2.5
   let lineWidth: Double
 
-  let gradient: AngularGradient
-
   let shape: ShapeProgressShapeType
 
-  /// Creates a new `ShapeProgress` view with a customizable gradient, line width, and shape.
+  /// Creates a new `ShapeProgress` view with a customizable line width and shape.
   ///
   /// This initializer lets you configure the appearance of the animated progress indicator
-  /// by providing a list of gradient colors, the stroke thickness, and the shape to render.
+  /// by providing the stroke thickness and the shape to render.
   /// The shape is chosen through the `ShapeProgress.ShapeType` enum, which includes
   /// built‑in options like `.starShape`, `.diamondShape`, and `.flareFlowerShape`,
   /// as well as a `.custom` case for injecting your own `Shape`.
   ///
   /// - Parameters:
-  ///   - gradientColors: The array of colors used to build the `AngularGradient`
-  ///     that styles the progress indicator’s stroke.
   ///   - lineWidth: The thickness of the shape’s stroke in points.
   ///   - shape: A `ShapeProgress.ShapeType` case defining which shape to display.
   ///
   /// Example:
   /// ```swift
   /// ShapeProgress(
-  ///     gradientColors: [.blue, .purple, .pink],
   ///     lineWidth: 4,
   ///     shape: .starShape
   /// )
   /// ```
-  init(gradientColors: [Color], lineWidth: Double, shape: ShapeProgressShapeType) {
-    gradient = AngularGradient(colors: gradientColors, center: .center)
+  init(lineWidth: Double, shape: ShapeProgressShapeType) {
     self.lineWidth = lineWidth
     self.shape = shape
   }
@@ -135,7 +129,6 @@ struct ShapeProgress: View {
           .scaleEffect(0.9)
       }
     }
-    .foregroundStyle(gradient)
     .onAppear {
       Timer.scheduledTimer(withTimeInterval: animationTime, repeats: true) { _ in
         Task { @MainActor in
@@ -201,6 +194,9 @@ private struct SpinnerCircle: View {
 }
 
 #Preview {
-  ShapeProgress(gradientColors: [.blue, .yellow, .pink, .blue], lineWidth: 4, shape: .fancyDiamondShape)
+  ShapeProgress(lineWidth: 4, shape: .fancyDiamondShape)
     .frame(width: 200, height: 200)
+    .foregroundStyle(
+      AngularGradient(colors: [.blue, .yellow, .pink, .blue], center: .center)
+    )
 }

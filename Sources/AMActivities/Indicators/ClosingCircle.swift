@@ -6,13 +6,11 @@ struct ClosingCircle: View {
 
   private let animationDuration: Double
   private let arcLength: CGFloat = 1.1
-  private let gradientColors: [Color]
   private let lineWidth: CGFloat
   private let strokeStyle: StrokeStyle
 
   /// Initializes the activity indicator.
   /// - Parameters:
-  ///   - gradientColors:  An array of colors for the angular gradient stroke. Inject a single color,i.e. `[.blue] `for no gradient.
   ///   - animationDuration: The duration of one full rotation cycle in seconds. Affects spin speed.
   ///   - lineWidth: The line width of the circle.
   /// Example usage:
@@ -20,11 +18,9 @@ struct ClosingCircle: View {
   /// ClosingCircle(gradientColors: [.blue, .purple, .pink])
   /// ```
   init(
-    gradientColors: [Color],
     animationDuration: Double,
     lineWidth: CGFloat
   ) {
-    self.gradientColors = gradientColors
     self.animationDuration = animationDuration
     self.lineWidth = lineWidth
 
@@ -40,13 +36,7 @@ struct ClosingCircle: View {
       Group {
         Circle()
           .stroke(style: strokeStyle)
-          .foregroundStyle(
-            AngularGradient(
-              colors: gradientColors,
-              center: .center
-            )
-            .opacity(0.2)
-          )
+          .opacity(0.2)
         closingAnimation
       }
     }
@@ -56,12 +46,6 @@ struct ClosingCircle: View {
     Circle()
       .trim(from: 0, to: progress * arcLength)
       .stroke(style: strokeStyle)
-      .foregroundStyle(
-        AngularGradient(
-          colors: gradientColors,
-          center: .center
-        )
-      )
       .rotationEffect(.degrees(-90)) // Start from the top
       .animation(
         Animation.linear(duration: animationDuration)
@@ -76,9 +60,11 @@ struct ClosingCircle: View {
 
 #Preview {
   ClosingCircle(
-    gradientColors: [.blue, .purple, .pink, .blue],
     animationDuration: 1.5,
     lineWidth: 6
+  )
+  .foregroundStyle(
+    AngularGradient(colors: [.blue, .purple, .pink, .blue], center: .center)
   )
   .frame(width: 50, height: 50)
 }

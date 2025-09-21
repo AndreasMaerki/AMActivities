@@ -10,7 +10,6 @@ struct FlickerRing: View {
   let count: Int
   let animationDuration: Double
   let spokeType: SpokeType
-  let gradientColors: [Color]
 
   var body: some View {
     GeometryReader { geometry in
@@ -22,20 +21,15 @@ struct FlickerRing: View {
         ) / animationDuration
 
         ZStack {
-          let groupContent = ZStack {
-            ForEach(0 ..< count, id: \.self) { index in
-              FlickeringBarItem(
-                index: index,
-                count: count,
-                size: geometry.size,
-                globalPhase: phase,
-                type: spokeType
-              )
-            }
+          ForEach(0 ..< count, id: \.self) { index in
+            FlickeringBarItem(
+              index: index,
+              count: count,
+              size: geometry.size,
+              globalPhase: phase,
+              type: spokeType
+            )
           }
-
-          AngularGradient(colors: gradientColors, center: .center)
-            .mask(groupContent)
         }
         .frame(width: geometry.size.width, height: geometry.size.height)
       }
@@ -126,11 +120,13 @@ private struct FlickeringBarItem: View {
 }
 
 #Preview {
-  FlickerRing(
-    count: 10,
-    animationDuration: 1,
-    spokeType: .bar,
-    gradientColors: [.red, .blue, .yellow]
-  )
-  .frame(width: 300, height: 300)
+  AngularGradient(colors: [.red, .blue, .yellow, .red], center: .center)
+    .mask {
+      FlickerRing(
+        count: 10,
+        animationDuration: 1,
+        spokeType: .bar
+      )
+    }
+    .frame(width: 300, height: 300)
 }

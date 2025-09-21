@@ -16,31 +16,65 @@ struct DemoView: View {
             isVisible: $isVisible,
             type: .closingCircle()
           )
-          AMActivityIndicator(
-            isVisible: $isVisible,
-            type: .flickerRing(
-              count: 10,
-              spokeType: .bar
+          .foregroundStyle(
+            AngularGradient(
+              colors: [.pink, .yellow, .purple, .red],
+              center: .center
             )
           )
-          AMActivityIndicator(
-            isVisible: $isVisible,
-            type: .flickerRing(
-              count: 10,
-              spokeType: .ellipse
-            )
+
+          AngularGradient(
+            colors: [.pink, .yellow, .purple, .red],
+            center: .center
           )
-          AMActivityIndicator(
-            isVisible: $isVisible,
-            type: .flickerRing(
-              count: 8,
-              spokeType: .circle
+          .mask {
+            AMActivityIndicator(
+              isVisible: $isVisible,
+              type:
+              .flickerRing(
+                count: 10,
+                spokeType: .bar
+              )
             )
-          )
+          }
+
+          AngularGradient(
+            colors: [.pink, .yellow, .purple, .red],
+            center: .center
+          ).mask {
+            AMActivityIndicator(
+              isVisible: $isVisible,
+              type: .flickerRing(
+                count: 10,
+                spokeType: .ellipse
+              )
+            )
+          }
+
+          AngularGradient(
+            colors: [.pink, .yellow, .purple, .red],
+            center: .center
+          ).mask {
+            AMActivityIndicator(
+              isVisible: $isVisible,
+              type: .flickerRing(
+                count: 8,
+                spokeType: .circle
+              )
+            )
+          }
+
           AMActivityIndicator(
             isVisible: $isVisible,
             type: .rotatingSegment()
           )
+          .foregroundStyle(
+            AngularGradient(
+              colors: [.pink, .yellow, .purple, .red],
+              center: .center
+            )
+          )
+
           AMActivityIndicator(
             isVisible: $isVisible,
             type: .shapeProgressView(
@@ -48,12 +82,26 @@ struct DemoView: View {
               shape: .none
             )
           )
+          .foregroundStyle(
+            AngularGradient(
+              colors: [.pink, .yellow, .purple, .red],
+              center: .center
+            )
+          )
+
           AMActivityIndicator(
             isVisible: $isVisible,
             type: .shapeProgressView(
               lineWidth: 4
             )
           )
+          .foregroundStyle(
+            AngularGradient(
+              colors: [.pink, .yellow, .purple, .red],
+              center: .center
+            )
+          )
+
           AMActivityIndicator(
             isVisible: $isVisible,
             type: .shapeProgressView(
@@ -61,26 +109,53 @@ struct DemoView: View {
               shape: .flareFlowerShape
             )
           )
-          AMActivityIndicator(
-            isVisible: $isVisible,
-            type: .trimmedCircle()
+          .foregroundStyle(
+            AngularGradient(
+              colors: [.pink, .yellow, .purple, .red],
+              center: .center
+            )
           )
+
           AMActivityIndicator(
             isVisible: $isVisible,
             type: .equalizer()
           )
+          .foregroundStyle(
+            LinearGradient(
+              colors: [.pink, .orange, .yellow],
+              startPoint: .bottom,
+              endPoint: .top
+            )
+          )
+
           AMActivityIndicator(
             isVisible: $isVisible,
             type: .equalizer(
               alignment: .bottom
             )
           )
+          .foregroundStyle(
+            LinearGradient(
+              colors: [.pink, .orange, .yellow],
+              startPoint: .bottom,
+              endPoint: .top
+            )
+          )
+
           AMActivityIndicator(
             isVisible: $isVisible,
             type: .equalizer(
               alignment: .top
             )
           )
+          .foregroundStyle(
+            LinearGradient(
+              colors: [.pink, .orange, .yellow],
+              startPoint: .bottom,
+              endPoint: .top
+            )
+          )
+
           AMActivityIndicator(
             isVisible: $isVisible,
             type: .equalizer(
@@ -88,6 +163,14 @@ struct DemoView: View {
               direction: .horizontal
             )
           )
+          .foregroundStyle(
+            LinearGradient(
+              colors: [.pink, .orange, .yellow],
+              startPoint: .bottom,
+              endPoint: .top
+            )
+          )
+
           AMActivityIndicator(
             isVisible: $isVisible,
             type: .equalizer(
@@ -95,23 +178,51 @@ struct DemoView: View {
               direction: .horizontal
             )
           )
-          AMActivityIndicator(
-            isVisible: $isVisible,
-            type: .equalizer(
-              alignment: .bottom,
-              direction: .horizontal
+          .foregroundStyle(
+            LinearGradient(
+              colors: [.pink, .yellow],
+              startPoint: .bottom,
+              endPoint: .top
             )
           )
-          AMActivityIndicator(
-            isVisible: $isVisible,
-            type: .scalingDots()
-          )
-          AMActivityIndicator(
-            isVisible: $isVisible,
-            type: .scalingDots(
-              randomize: true
+
+          LinearGradient(
+            colors: [.pink, .yellow],
+            startPoint: .leading,
+            endPoint: .trailing
+          ).mask {
+            AMActivityIndicator(
+              isVisible: $isVisible,
+              type: .equalizer(
+                alignment: .bottom,
+                direction: .horizontal
+              )
             )
-          )
+          }
+
+          LinearGradient(
+            colors: [.pink, .yellow],
+            startPoint: .leading,
+            endPoint: .trailing
+          ).mask {
+            AMActivityIndicator(
+              isVisible: $isVisible,
+              type: .scalingDots()
+            )
+          }
+
+          LinearGradient(
+            colors: [.pink, .yellow],
+            startPoint: .leading,
+            endPoint: .trailing
+          ).mask {
+            AMActivityIndicator(
+              isVisible: $isVisible,
+              type: .scalingDots(
+                randomize: true
+              )
+            )
+          }
         }
         .frame(width: 100, height: 100)
         .padding()
