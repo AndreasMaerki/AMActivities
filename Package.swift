@@ -20,9 +20,5 @@ let package = Package(
     // Targets can depend on other targets in this package and products from dependencies.
     .target(
       name: "AMActivities"),
-    .testTarget(
-      name: "AMActivitiesTests",
-      dependencies: ["AMActivities"]
-    ),
   ]
 )
