@@ -172,6 +172,11 @@ public struct AMActivityIndicator: View {
   @Binding public var isVisible: Bool
   public var type: IndicatorType
 
+  public init(isVisible: Binding<Bool>, type: IndicatorType) {
+    _isVisible = isVisible
+    self.type = type
+  }
+
   public var body: some View {
     if isVisible {
       indicator

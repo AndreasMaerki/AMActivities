@@ -1,8 +1,9 @@
+import AMActivities
 import SwiftUI
 
-struct DemoView: View {
+struct IndicatorDemoView: View {
   let columns = Array(
-    repeating: GridItem(.flexible(), spacing: 20),
+    repeating: GridItem(.flexible(), spacing: 0),
     count: 2
   )
 
@@ -10,7 +11,7 @@ struct DemoView: View {
 
   var body: some View {
     ScrollView {
-      LazyVGrid(columns: columns, spacing: 10) {
+      LazyVGrid(columns: columns) {
         Group {
           AMActivityIndicator(
             isVisible: $isVisible,
@@ -224,7 +225,7 @@ struct DemoView: View {
             )
           }
         }
-        .frame(width: 100, height: 100)
+        .frame(width: 64, height: 64)
         .padding()
       }
     }
@@ -232,5 +233,5 @@ struct DemoView: View {
 }
 
 #Preview {
-  DemoView()
+  IndicatorDemoView()
 }
