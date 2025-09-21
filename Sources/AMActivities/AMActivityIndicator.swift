@@ -1,5 +1,45 @@
 import SwiftUI
 
+/// A highly‑customisable activity‑indicator view.
+///
+/// `AMActivityIndicator` is a single‑view wrapper that can display a variety
+/// of animated spinners, progress rings, equalizers, and dot animations.
+/// The visual style is chosen by the ``IndicatorType`` enum.  The view
+/// is shown only when the bound ``isVisible`` flag is `true`; otherwise
+/// it renders an empty view.
+///
+/// The indicator is built from a collection of small, self‑contained
+/// sub‑views (e.g. `ClosingCircle`, `FlickerRing`, `Equalizer`, …).
+/// Each sub‑view is responsible for its own animation logic, so the
+/// parent view simply forwards the configuration parameters.
+///
+/// Example
+/// -------
+/// ```swift
+/// struct ContentView: View {
+///     @State private var loading = true
+///
+///     var body: some View {
+///         VStack {
+///             AMActivityIndicator(
+///                 isVisible: $loading,
+///                 type: .flickerRing(count: 8, spokeType: .ellipse)
+///             )
+///             .frame(width: 80, height: 80)
+///
+///             Button("Toggle") { loading.toggle() }
+///         }
+///     }
+/// }
+/// ```
+///
+/// The view is intentionally lightweight – it only renders the
+/// indicator when `isVisible` is `true`, which keeps the view hierarchy
+/// minimal and improves performance for large UI trees.
+///
+/// Note: All indicators come with sensible default values for quick use,
+/// but each parameter can be overridden to tailor the appearance
+/// to your needs.
 public struct AMActivityIndicator: View {
   public enum IndicatorType {
     /// Initializes the activity indicator.
@@ -15,7 +55,7 @@ public struct AMActivityIndicator: View {
       lineWidth: CGFloat = 6,
     )
 
-    /// An animated radial "ring" of flickering spokes, styled with a gradient
+    /// An animated radial "ring" of flickering spokes
     /// and animated opacity/scale variations.
     ///
     /// `FlickerRing` arranges a number of shapes (spokes) evenly spaced around
@@ -24,9 +64,6 @@ public struct AMActivityIndicator: View {
     /// radar sweep. Spokes can be drawn as bars, circles, or ellipses via
     /// the ``SpokeType`` enum.
     ///
-    /// The ring is filled using an `AngularGradient` mask built from
-    /// the provided gradient colors, giving smooth transitions around the circle.
-    /// The gradient defaults to `[.red, .purple, .pink, .red]`.
     ///
     /// - Parameters:
     ///   - count: The number of spokes to draw around the ring. A higher count
@@ -48,7 +85,7 @@ public struct AMActivityIndicator: View {
       spokeType: SpokeType = .bar,
     )
 
-    /// A rotating segment spinner with optional gradient stroke.
+    /// A rotating segment spinner.
     ///
     /// - Parameters:
     ///   - animationDuration: Time in seconds for one full rotation. Defaults to 1.5.
@@ -63,15 +100,13 @@ public struct AMActivityIndicator: View {
       lineWidth: CGFloat = 6
     )
 
-    /// Creates a `ShapeProgress` view with customizable gradient colors, stroke width, and shape.
+    /// Creates a `ShapeProgress` view with customizable stroke width and shape.
     ///
     /// Use this case to display an animated progress indicator in the style defined by
     /// `ShapeProgress`, choosing the stroke appearance and which decorative shape
     /// (such as diamond, star, or flare flower) should be drawn.
     ///
     /// - Parameters:
-    ///   - gradientColors: The colors used to generate the underlying `AngularGradient`
-    ///     for the indicator’s stroke. Defaults to `[.blue, .purple, .pink, .blue]`.
     ///   - lineWidth: The thickness of the shape’s stroke in points. Defaults to `4`.
     ///   - shape: A `ShapeProgressShapeType` value specifying which shape to render,
     ///     such as `.fancyDiamondShape` or `.starShape`. Defaults to `.fancyDiamondShape`.
@@ -79,7 +114,6 @@ public struct AMActivityIndicator: View {
     /// Example:
     /// ```swift
     /// AMActivityIndicator.shapeProgressView(
-    ///     gradientColors: [.orange, .red, .yellow],
     ///     lineWidth: 6,
     ///     shape: .starShape
     /// )
@@ -90,7 +124,7 @@ public struct AMActivityIndicator: View {
     )
 
     /// Creates an animated equalizer view with configurable bar count, scaling,
-    /// animation behavior, alignment, orientation, and gradient styling.
+    /// animation behavior, alignment and orientation.
     ///
     /// This case produces a `Equalizer` view composed of animated bars that repeatedly
     /// scale between a minimum and maximum height (or width, if horizontal).
