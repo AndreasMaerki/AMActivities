@@ -1,6 +1,6 @@
 # AMActivities 🎡
 
-![Demo](assets/iPhoneSpinner.gif)
+<img src="assets/iPhoneSpinner.gif" alt="Demo of the app" width="200"/>
 
 A lightweight, highly‑customizable collection of **SwiftUI activity indicators**.
 Choose from elegant spinners, flickering rings, equalizer bars, animated dots, or shape‑based progress views—all composable, customizable, and performance‑friendly.
